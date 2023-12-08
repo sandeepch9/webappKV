@@ -3,14 +3,12 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "keyVaultName": {
-            "defaultValue": "articlekvnew",
             "type": "String",
             "metadata": {
                 "description": "Specifies the name of the key vault."
             }
         },
         "skuName": {
-            "defaultValue": "Standard",
             "allowedValues": [
                 "Standard",
                 "Premium"
@@ -21,7 +19,6 @@
             }
         },
         "objectId": {
-            "defaultValue": "dc1cfbf7-89bf-487b-9415-e713ec31d677",
             "type": "String",
             "metadata": {
                 "description": "Specifies the object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Get it by using Get-AzADUser or Get-AzADServicePrincipal cmdlets."
@@ -35,9 +32,6 @@
             }
         },
         "secretsPermissions": {
-            "defaultValue": [
-                "get"
-            ],
             "type": "Array",
             "metadata": {
                 "description": "Specifies the permissions to secrets in the vault. Valid values are: all, get, list, set, delete, backup, restore, recover, and purge."
@@ -45,14 +39,12 @@
         },
         "secretName": {
         "type": "string",
-        "defaultValue": "trialsecret",
         "metadata": {
             "description": "Specifies the name of the secret that you want to create."
         }
         },
         "secretValue": {
         "type": "securestring",
-        "defaultValue": "Passing_Secret_from_KV",
         "metadata": {
             "description": "Specifies the value of the secret that you want to create."
         }

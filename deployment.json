@@ -3,17 +3,14 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ASP_name": {
-            "defaultValue": "aspmyarticlewebapp",
             "minLength": 1,
             "type": "String"
         },
         "webappname": {
-            "defaultValue": "myarticlewebapp",
             "minLength": 1,
             "type": "String"
         },
         "ASP_SKU": {
-            "defaultValue": "Standard",
             "allowedValues": [
                 "Free",
                 "Shared",
@@ -23,7 +20,6 @@
             "type": "String"
         },
         "ASPWorkerSize": {
-            "defaultValue": "0",
             "allowedValues": [
                 "0",
                 "1",

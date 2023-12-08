@@ -15,10 +15,6 @@ variables:
     value: $(Pipeline.Workspace)/BuildPipeline/drop
 
 steps:
-# - download: BuildPipeline
-#   artifact: drop
-#   displayName: Download Artifact package
-
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Create Azure WebApp Service
   inputs:
@@ -31,14 +27,6 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: 'deployment.json'
     deploymentMode: 'Incremental'
-
-# - task: AzureCLI@2
-#   displayName: Get the WebApp PrincipalId
-#   inputs:
-#     azureSubscription: 'webappkv-sc'
-#     scriptType: 'bash'
-#     scriptLocation: 'inlineScript'
-#     inlineScript: 'az webapp identity show --name myarticleapptestabc --resource-group articlerg --query principalId'
 
 - task: AzureResourceManagerTemplateDeployment@3
   displayName: Deploy Azure KV
@@ -53,15 +41,6 @@ steps:
     csmFile: 'KVdeployment.json'
     deploymentMode: 'Incremental'
 
-# - task: AzureCLI@2
-#   displayName: Create an access policy
-#   inputs:
-#     azureSubscription: 'webappkv-sc'
-#     scriptType: 'bash'
-#     scriptLocation: 'inlineScript'
-#     inlineScript: |
-#       az keyvault set-policy --name articlekvtrial --secret-permissions get --object-id $WebAppPrincipalId
-
 - task: AzurePowerShell@5
   displayName: Assign Permission to App Service
   inputs:
@@ -72,45 +51,3 @@ steps:
       Write-Host "The WebApp PrincipalId is: $output"
       Set-AzKeyVaultAccessPolicy -VaultName articlekvnew -ObjectId $output -PermissionsToSecrets Get,List -BypassObjectIdValidation
     azurePowerShellVersion: 'LatestVersion'
-
-# - task: AzurePowerShell@5
-#   inputs:
-#     azureSubscription: 'webappkv-sc'
-#     ScriptType: 'InlineScript'
-#     Inline: |
-#       Write-Host "The WebApp PrincipalId is: $(WebAppPrincipalId)"
-#       Set-AzKeyVaultAccessPolicy -VaultName articlekvtrial -ObjectId $(WebAppPrincipalId) -PermissionsToSecrets Get
-#     azurePowerShellVersion: 'LatestVersion'
-      # Write-Host "##vso[task.setvariable variable=WebAppPrincipalId]$output"
-
-# Set-AzKeyVaultAccessPolicy -VaultName 'articlekvtrial' -ObjectId $WebAppPrincipalId -PermissionsToSecrets Get
-# - task: AzurePowerShell@5
-#   inputs:
-#     azureSubscription: 'webappkv-sc'
-#     ScriptType: 'InlineScript'
-#     Inline: |
-#       $outputs = ConvertFrom-Json $($env:ResourceGroupDeploymentOutputs)
-#       foreach ($output in $outputs.PSObject.Properties) {
-#         Write-Host "##vso[task.setvariable variable=RGDO_$($output.Name)]$($output.Value.value)"
-#       }
-#     FailOnStandardError: true
-#     azurePowerShellVersion: 'LatestVersion'
-
-# - task: AzureRmWebAppDeployment@4
-#   inputs:
-#     ConnectionType: 'AzureRM'
-#     azureSubscription: 'artice-sc'
-#     appType: 'webApp'
-#     WebAppName: 'myarticlewebapp'
-#     deployToSlotOrASE: true
-#     ResourceGroupName: 'article-new-rg'
-#     SlotName: 'staging'
-#     packageForLinux: '$(ArtifactsBasePath)/*.zip'
-
-# - task: AzureAppServiceManage@0
-#   inputs:
-#     azureSubscription: 'artice-sc'
-#     Action: 'Swap Slots'
-#     WebAppName: 'myarticlewebapp'
-#     ResourceGroupName: 'article-new-rg'
-#     SourceSlot: 'staging'
